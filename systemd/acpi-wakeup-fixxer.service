@@ -1,0 +1,15 @@
+[Unit]
+Description=Fix ACPI wakeup issues
+DefaultDependencies=no
+Conflicts=shutdown.target
+Before=sysinit.target shutdown.target
+ConditionPathExists=|/proc/acpi/wakeup
+
+[Service]
+ExecStart=/usr/local/bin/acpi-wakeup-fixxer
+Type=oneshot
+TimeoutSec=0
+RemainAfterExit=yes
+
+[Install]
+WantedBy=sysinit.target
