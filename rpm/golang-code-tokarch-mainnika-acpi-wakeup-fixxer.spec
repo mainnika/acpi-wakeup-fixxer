@@ -10,7 +10,7 @@ This package provides a fix for ACPI wakeup issues on MacBookPro12,x.}
 
 %global archivename main
 %global archiveext  tar.gz
-%global topdir      acpi-wakeup-fixxer-main
+%global topdir      acpi-wakeup-fixxer-%{archivename}
 
 Name:           golang-code-tokarch-mainnika-acpi-wakeup-fixxer
 Version:        0
@@ -20,6 +20,8 @@ Summary:        None
 License:        MIT
 URL:            https://code.tokarch.uk/mainnika/acpi-wakeup-fixxer
 Source:         https://github.com/mainnika/acpi-wakeup-fixxer/archive/refs/heads/%{archivename}.%{archiveext}
+
+BuildRequires:  systemd
 
 %description %{common_description}
 
@@ -41,6 +43,9 @@ Source:         https://github.com/mainnika/acpi-wakeup-fixxer/archive/refs/head
 install -m 0755 -vd                     %{buildroot}%{_bindir}
 install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 
+install -m 0755 -vd %{buildroot}%{_unitdir}
+install -m 0644 -vp systemd/acpi-wakeup-fixxer.service %{buildroot}%{_unitdir}/
+
 %if %{with check}
 %check
 %gocheck
@@ -50,6 +55,7 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %license LICENSE
 %doc README.md
 %{_bindir}/*
+%{_unitdir}/acpi-wakeup-fixxer.service
 
 %gopkgfiles
 
