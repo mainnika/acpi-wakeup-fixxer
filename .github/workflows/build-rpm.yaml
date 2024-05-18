@@ -16,6 +16,7 @@ jobs:
 
     container:
       image: fedora:40
+      options: --privileged
 
     steps:
     - name: Install dependencies
