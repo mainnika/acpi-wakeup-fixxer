@@ -15,9 +15,8 @@ var (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "acpi-wakeup-fixxer",
 	Short: "A CLI tool to fix ACPI wakeup issues",
-	Args:  cobra.NoArgs,
+	Use:   "acpi-wakeup-fixxer",
 	Long:  "acpi-wakeup-fixxer is a command-line tool to fix ACPI wakeup issues on your system.",
 	Run:   rootCmdRun,
 }
