@@ -34,7 +34,7 @@ jobs:
       run: |
         tar --strip-components=1 -xvf $FILENAME '*/rpm/golang-code-tokarch-mainnika-acpi-wakeup-fixxer.spec'
         mock --init
-        mock --buildsrpm --spec rpm/golang-code-tokarch-mainnika-acpi-wakeup-fixxer.spec --sources $FILENAME --rpmbuild-opts="-D'__archivename $ARCHIVENAME' -D'__archiveext tar.gz'" --rebuild
+        mock --buildsrpm --spec rpm/golang-code-tokarch-mainnika-acpi-wakeup-fixxer.spec --sources $FILENAME --rpmbuild-opts="-D'__archivename $ARCHIVENAME' -D'__archiveext tar.gz'" --rebuild --isolation=simple
 
     - name: Archive RPM
       uses: actions/upload-artifact@v2
