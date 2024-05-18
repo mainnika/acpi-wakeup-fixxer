@@ -1,0 +1,43 @@
+name: Build RPM
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'branch or tag ref'
+        required: true
+        default: 'refs/heads/main'
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    container:
+      image: fedora:40
+
+    steps:
+    - name: Install dependencies
+      run: |
+        dnf install -y mock rpm-build
+
+    - name: Download sources tar.gz archive
+      run: |
+        curl -LO https://github.com/${{ github.repository }}/archive/${{ github.ref }}.tar.gz
+        FILENAME=$(ls)
+        ARCHIVENAME=$(basename $FILENAME .tar.gz)
+        echo "FILENAME=$FILENAME" >> $GITHUB_ENV
+        echo "ARCHIVENAME=$ARCHIVENAME" >> $GITHUB_ENV
+
+    - name: Build RPM
+      run: |
+        tar --strip-components=1 -xvf $FILENAME '*/rpm/golang-code-tokarch-mainnika-acpi-wakeup-fixxer.spec'
+        mock --init
+        mock --buildsrpm --spec rpm/golang-code-tokarch-mainnika-acpi-wakeup-fixxer.spec --sources $FILENAME --rpmbuild-opts="-D'__archivename $ARCHIVENAME' -D'__archiveext tar.gz'" --rebuild
+
+    - name: Archive RPM
+      uses: actions/upload-artifact@v2
+      with:
+        name: RPM
+        path: /var/lib/mock/fedora-40-x86_64/result/*.rpm
