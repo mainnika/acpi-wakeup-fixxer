@@ -46,6 +46,9 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 install -m 0755 -vd %{buildroot}%{_unitdir}
 install -m 0644 -vp systemd/acpi-wakeup-fixxer.service %{buildroot}%{_unitdir}/
 
+install -m 0755 -vd %{buildroot}%{_sysconfdir}/default
+install -m 0644 -vp systemd/acpi-wakeup-fixxer %{buildroot}%{_sysconfdir}/default/
+
 %if %{with check}
 %check
 %gocheck
@@ -56,6 +59,7 @@ install -m 0644 -vp systemd/acpi-wakeup-fixxer.service %{buildroot}%{_unitdir}/
 %doc README.md
 %{_bindir}/*
 %{_unitdir}/acpi-wakeup-fixxer.service
+%config(noreplace) %{_sysconfdir}/default/acpi-wakeup-fixxer
 
 %gopkgfiles
 
