@@ -37,8 +37,8 @@ jobs:
         mock --init
         mock --buildsrpm --spec rpm/golang-code-tokarch-mainnika-acpi-wakeup-fixxer.spec --sources $FILENAME --rpmbuild-opts="-D'__archivename $ARCHIVENAME' -D'__archiveext tar.gz'" --rebuild --isolation=simple
 
-    - name: Archive RPM
-      uses: actions/upload-artifact@v2
+    - name: Archive RPMs
+      uses: actions/upload-artifact@v4
       with:
-        name: RPM
-        path: /var/lib/mock/fedora-40-x86_64/result/*.rpm
+        name: RPMs
+        path: /var/lib/mock/*/result/*.rpm
